@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="assets/logo.jpg">
+<title>상상공작소 AI모임</title>
+<meta name="description" content="상상하면 만들어집니다. 배우고, 만들고, 나누며 함께 성장하는 AI 커뮤니티, 상상공작소 AI모임.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Nanum+Pen+Script&display=swap">
+<style>
+/* Layout: 공작소 설계도 — 점 격자 종이 위에 굵은 잉크 제목, 손글씨 메모, 상상이가 창문 너머로 인사하는 구성 */
+:root{
+  --paper:#F9F9FA;        /* 상상이 사진 배경과 같은 종이색 */
+  --paper-2:#F0EFF7;
+  --ink:#1E2160;          /* 상상이 후드티 남색 */
+  --ink-soft:#4A4D7C;
+  --violet:#6A4CE0;       /* 후드 테두리 보라 */
+  --violet-soft:#E7E2FB;
+  --spark:#E9791B;        /* 로고 전구 속 주황 */
+  --cyan:#1497B5;
+  --line:#D9D8E8;
+  --dot:#CFCDE3;
+  --card:#FFFFFF;
+  --photo:#F9F9FA;
+  --on-ink:#FFFFFF;
+  --f-display:"Black Han Sans","IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-hand:"Nanum Pen Script","IBM Plex Sans KR",cursive;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --wrap:1180px;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0F1135;--paper-2:#161948;--ink:#ECEBFA;--ink-soft:#B4B3D6;--violet:#A592FF;--violet-soft:#2A2668;
+  --spark:#FF9D47;--cyan:#4FD0EC;--line:#2C2F66;--dot:#262A5C;--card:#151843;--on-ink:#0F1135;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0F1135;--paper-2:#161948;--ink:#ECEBFA;--ink-soft:#B4B3D6;--violet:#A592FF;--violet-soft:#2A2668;
+  --spark:#FF9D47;--cyan:#4FD0EC;--line:#2C2F66;--dot:#262A5C;--card:#151843;--on-ink:#0F1135;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;
+  background-image:radial-gradient(var(--dot) 1.2px,transparent 1.3px);background-size:26px 26px;word-break:keep-all;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--spark);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{text-wrap:balance;margin:0}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.15;letter-spacing:-.01em}
+h3{font-size:1.12rem;font-weight:700;line-height:1.4}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--violet)}
+.hand{font-family:var(--f-hand);color:var(--spark);font-size:1.7rem;line-height:1.1}
+.lead{color:var(--ink-soft);font-size:1.06rem;max-width:62ch}
+section{padding-block:clamp(72px,10vw,120px)}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(36px,5vw,56px)}
+
+/* ---------- 상단바 ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--paper) 86%,transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:20px;min-height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;white-space:nowrap}
+.brand img{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--line)}
+.brand b{font-family:var(--f-display);font-weight:400;font-size:1.2rem;letter-spacing:.01em}
+.brand b em{font-style:normal;color:var(--violet)}
+.menu{display:flex;gap:4px;margin-left:auto;list-style:none;padding:0;margin-block:0}
+.menu a{display:block;padding:8px 12px;border-radius:999px;text-decoration:none;font-size:.95rem;font-weight:500;color:var(--ink-soft)}
+.menu a:hover{background:var(--violet-soft);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:700;
+  text-decoration:none;border:2px solid var(--ink);font-size:1rem;cursor:pointer;font-family:inherit;transition:transform .15s ease,box-shadow .15s ease}
+.btn-ink{background:var(--ink);color:var(--on-ink)}
+.btn-line{background:transparent;color:var(--ink)}
+.btn:hover{transform:translateY(-2px);box-shadow:4px 4px 0 var(--spark)}
+.bar .btn{padding:9px 18px;font-size:.92rem}
+.toggle{display:none;margin-left:auto;background:none;border:2px solid var(--ink);color:var(--ink);border-radius:999px;padding:7px 14px;font:600 .9rem var(--f-body);cursor:pointer}
+@media (max-width:1020px){
+  .toggle{display:inline-block}
+  .bar .btn{display:none}
+  .menu{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;padding:12px clamp(16px,4vw,40px) 20px;background:var(--paper);border-bottom:1px solid var(--line)}
+  .menu.open{display:flex}
+  .menu a{padding:12px 8px;font-size:1.05rem;border-radius:10px}
+}
+
+/* ---------- 히어로 ---------- */
+.hero{padding-block:clamp(40px,7vw,84px) clamp(56px,8vw,96px)}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero-copy{display:grid;gap:22px;min-width:0}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(2.9rem,7vw,5.4rem);line-height:1.02;letter-spacing:-.02em}
+.hero h1 .l2{display:block;color:var(--violet)}
+.hero .hand{transform:rotate(-3deg);transform-origin:left;display:inline-block}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-mono);font-size:.8rem;color:var(--ink-soft);margin-top:4px}
+.hero-meta span::before{content:"■ ";color:var(--spark)}
+.porthole{position:relative;background:var(--photo);border:2px solid var(--ink);border-radius:220px 220px var(--r) var(--r);overflow:hidden;
+  box-shadow:10px 10px 0 var(--violet);max-width:440px;justify-self:end;width:100%}
+.porthole img{width:100%;height:auto;animation:float 5s ease-in-out infinite}
+.porthole figcaption{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:var(--ink);color:var(--on-ink);
+  font-size:.86rem;display:flex;justify-content:space-between;gap:10px}
+.porthole figcaption b{font-family:var(--f-display);font-weight:400;font-size:1.05rem}
+.bubble{position:absolute;top:7%;left:12px;background:#fff;color:#1E2160;border:2px solid #1E2160;border-radius:18px 18px 18px 4px;
+  padding:8px 14px;font-family:var(--f-hand);font-size:1.45rem;line-height:1.1;box-shadow:3px 3px 0 #1E2160;transform:rotate(-4deg)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes rise{from{transform:translateY(14px)}to{transform:none}}
+.hero-copy>*{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.hero-copy>*:nth-child(2){animation-delay:.06s}.hero-copy>*:nth-child(3){animation-delay:.12s}.hero-copy>*:nth-child(4){animation-delay:.18s}
+@media (max-width:820px){.hero .wrap{grid-template-columns:1fr}.porthole{justify-self:center;max-width:360px}}
+
+/* ---------- 띠 ---------- */
+.ticker{background:var(--ink);color:var(--on-ink);overflow:hidden;border-block:2px solid var(--ink)}
+.ticker-track{display:flex;gap:42px;width:max-content;padding:14px 0;font-family:var(--f-display);font-size:1.3rem;animation:slide 38s linear infinite}
+.ticker-track span{white-space:nowrap}
+.ticker-track i{font-style:normal;color:var(--spark)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- 소개 ---------- */
+.about-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:10px;align-content:start;min-width:0}
+.tile .k{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;color:var(--violet);font-weight:600}
+.tile p{color:var(--ink-soft);font-size:.96rem}
+@media (max-width:920px){.about-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.about-grid{grid-template-columns:1fr}}
+.banner{margin-top:28px;border-radius:var(--r);overflow:hidden;border:2px solid var(--ink)}
+
+/* ---------- 비전 ---------- */
+.vision{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:start}
+.vision blockquote{margin:0;font-family:var(--f-display);font-size:clamp(1.7rem,3.4vw,2.5rem);line-height:1.3}
+.vision blockquote em{font-style:normal;color:var(--violet)}
+.values{list-style:none;margin:0;padding:0;display:grid;border-top:2px solid var(--ink)}
+.values li{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.values b{font-size:1.08rem}
+.values span{color:var(--ink-soft)}
+@media (max-width:820px){.vision{grid-template-columns:1fr}.values li{grid-template-columns:1fr;gap:2px}}
+
+/* ---------- SANGSANG ---------- */
+.sangsang{background:var(--ink);color:var(--on-ink);background-image:none}
+.sangsang .eyebrow{color:var(--spark)}
+.sangsang .lead{color:color-mix(in srgb,var(--on-ink) 75%,transparent)}
+.letters{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:2px solid color-mix(in srgb,var(--on-ink) 30%,transparent);border-radius:var(--r);overflow:hidden}
+.letter{padding:22px 20px 24px;border-right:1px solid color-mix(in srgb,var(--on-ink) 18%,transparent);border-bottom:1px solid color-mix(in srgb,var(--on-ink) 18%,transparent);display:grid;gap:6px;min-width:0;transition:background .2s}
+.letter:nth-child(4n){border-right:0}
+.letter:nth-child(n+5){border-bottom:0}
+.letter:hover{background:color-mix(in srgb,var(--on-ink) 7%,transparent)}
+.letter .big{font-family:var(--f-display);font-size:clamp(3.4rem,7vw,5.4rem);line-height:1}
+.letter:nth-child(-n+4) .big{color:var(--spark)}
+.letter:nth-child(n+5) .big{color:var(--violet)}
+.letter .word{font-family:var(--f-mono);font-weight:600;font-size:.95rem;letter-spacing:.06em}
+.letter .ko{font-size:.95rem;opacity:.85}
+.row-label{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.74rem;letter-spacing:.14em;opacity:.7;margin:0 0 10px}
+.ai-mark{display:flex;align-items:center;gap:14px;margin-top:22px;font-family:var(--f-display);font-size:1.4rem}
+.ai-mark span{padding:2px 14px;border:2px solid currentColor;border-radius:999px}
+@media (max-width:620px){.letters{grid-template-columns:repeat(2,1fr)}
+  .letter:nth-child(4n){border-right:1px solid color-mix(in srgb,var(--on-ink) 18%,transparent)}
+  .letter:nth-child(2n){border-right:0}
+  .letter:nth-child(n+5){border-bottom:1px solid color-mix(in srgb,var(--on-ink) 18%,transparent)}
+  .letter:nth-child(n+7){border-bottom:0}}
+
+/* ---------- 우리가 하는 일 ---------- */
+.areas{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.area{border:2px solid var(--ink);border-radius:var(--r);background:var(--card);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.area header{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink)}
+.area header b{font-family:var(--f-mono);font-size:1.15rem;letter-spacing:.1em}
+.area header span{font-size:.88rem;color:var(--ink-soft)}
+.area ul{list-style:none;margin:0;padding:12px 20px 20px}
+.area li{padding:8px 0;border-bottom:1px dashed var(--line)}
+.area li:last-child{border-bottom:0}
+.area:nth-child(1) header{background:var(--violet-soft)}
+.area:nth-child(2) header{background:color-mix(in srgb,var(--spark) 18%,var(--card))}
+.area:nth-child(3) header{background:color-mix(in srgb,var(--cyan) 16%,var(--card))}
+.area:nth-child(4) header{background:var(--paper-2)}
+@media (max-width:920px){.areas{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.areas{grid-template-columns:1fr}}
+
+/* ---------- 운영방식 ---------- */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:f}
+.flow li{position:relative;padding:22px 20px 0 0;border-top:2px solid var(--ink);display:grid;gap:6px;align-content:start;min-width:0}
+.flow li::before{counter-increment:f;content:"0" counter(f);font-family:var(--f-mono);font-weight:600;font-size:.82rem;color:var(--violet)}
+.flow li::after{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;border-radius:50%;background:var(--spark)}
+.flow p{color:var(--ink-soft);font-size:.95rem}
+.flow-note{margin-top:22px;color:var(--ink-soft);font-size:.95rem}
+@media (max-width:920px){.flow{grid-template-columns:1fr 1fr;row-gap:28px}}
+@media (max-width:520px){.flow{grid-template-columns:1fr}}
+
+.levels{margin-top:clamp(48px,6vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.level{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:12px;align-content:start;min-width:0}
+.level .tag{display:inline-flex;align-self:start;justify-self:start;font-family:var(--f-mono);font-size:.76rem;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--violet-soft);color:var(--violet)}
+.level h3 small{font-weight:500;color:var(--ink-soft);font-size:.9rem;margin-left:6px}
+.level ul{margin:0;padding-left:1.1em;color:var(--ink-soft)}
+.level:nth-child(3){border:2px solid var(--ink)}
+@media (max-width:820px){.levels{grid-template-columns:1fr}}
+
+.journey{margin-top:clamp(48px,6vw,72px)}
+.journey h3{margin-bottom:18px}
+.path{display:flex;flex-wrap:wrap;gap:10px;align-items:center;list-style:none;margin:0;padding:0}
+.path li{display:flex;align-items:center;gap:10px}
+.path li span{display:inline-flex;flex-direction:column;align-items:center;padding:10px 16px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-weight:700;line-height:1.3}
+.path li span small{font-weight:500;font-size:.78rem;color:var(--ink-soft)}
+.path li:not(:last-child)::after{content:"→";color:var(--spark);font-weight:700}
+.path li:last-child span{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+
+/* ---------- 프로그램 ---------- */
+.programs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:start}
+.prog-table{width:100%;border-collapse:collapse;font-size:1rem}
+.prog-table th,.prog-table td{text-align:left;padding:16px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.prog-table thead th{font-family:var(--f-mono);font-size:.76rem;letter-spacing:.14em;color:var(--violet);border-bottom:2px solid var(--ink)}
+.prog-table tbody th{font-weight:700;white-space:nowrap;width:38%}
+.prog-table td{color:var(--ink-soft)}
+.info{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:26px;display:grid;gap:4px;box-shadow:8px 8px 0 var(--violet-soft)}
+.info h3{margin-bottom:8px}
+.info dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:12px 18px}
+.info dt{font-family:var(--f-mono);font-size:.8rem;font-weight:600;color:var(--violet);padding-top:3px;white-space:nowrap}
+.info dd{margin:0}
+@media (max-width:820px){.programs{grid-template-columns:1fr}}
+
+/* ---------- 처음 오셨나요 ---------- */
+.first{background:var(--paper-2)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.steps .n{font-family:var(--f-mono);font-size:.74rem;font-weight:600;letter-spacing:.1em;color:var(--spark)}
+.steps b{font-size:1.02rem;line-height:1.4}
+.steps li:last-child{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+@media (max-width:1020px){.steps{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.steps{grid-template-columns:1fr 1fr}}
+.first-guide{margin-top:28px;display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:stretch}
+.first-guide figure{margin:0;border-radius:var(--r);overflow:hidden;border:2px solid var(--ink);background:var(--photo)}
+.first-guide figure button{all:unset;cursor:zoom-in;display:block}
+.welcome{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:14px;align-content:center;min-width:0}
+.welcome .hand{font-size:2rem}
+@media (max-width:820px){.first-guide{grid-template-columns:1fr}}
+
+/* ---------- 기록 ---------- */
+.records{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px)}
+.timeline{list-style:none;margin:0;padding:0 0 0 22px;border-left:2px solid var(--ink);display:grid;gap:26px}
+.timeline li{position:relative;display:grid;gap:4px}
+.timeline li::before{content:"";position:absolute;left:-30px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--spark);border:2px solid var(--ink)}
+.timeline time{font-family:var(--f-mono);font-weight:600;color:var(--violet)}
+.timeline li.next::before{background:var(--paper);border-style:dashed}
+.timeline li.next{color:var(--ink-soft)}
+.photo-cats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.photo-cats div{aspect-ratio:4/3;max-width:100%;border:2px dashed var(--line);border-radius:var(--r);display:grid;place-content:center;text-align:center;gap:4px;padding:12px;background:var(--card)}
+.photo-cats b{font-size:1rem}
+.photo-cats small{color:var(--ink-soft);font-size:.82rem}
+@media (max-width:820px){.records{grid-template-columns:1fr}}
+
+/* ---------- 작품관 ---------- */
+.works{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.work{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:22px;display:grid;gap:10px;min-width:0}
+.work .swatch{height:120px;border-radius:12px;display:grid;place-items:center;font-family:var(--f-display);font-size:2.2rem;color:#fff}
+.work:nth-child(1) .swatch{background:linear-gradient(135deg,#F7A531,#E9791B)}
+.work:nth-child(2) .swatch{background:linear-gradient(135deg,#7B5CF0,#4B32B8)}
+.work:nth-child(3) .swatch{background:linear-gradient(135deg,#2E3192,#1E2160)}
+.work:nth-child(4) .swatch{background:linear-gradient(135deg,#25C1DD,#1497B5)}
+.work:nth-child(5) .swatch{background:linear-gradient(135deg,#4F56C9,#2E3192)}
+.work:nth-child(6) .swatch{background:linear-gradient(135deg,#E9791B,#6A4CE0)}
+.work .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.chip{font-family:var(--f-mono);font-size:.72rem;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.work-format{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--ink-soft);font-size:.95rem}
+.work-format b{color:var(--ink);margin-right:6px}
+.work-format span{padding:4px 12px;border-radius:999px;background:var(--violet-soft);color:var(--ink);font-size:.88rem}
+@media (max-width:920px){.works{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.works{grid-template-columns:1fr}}
+
+/* ---------- PEOPLE ---------- */
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.story{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:12px;align-content:start;min-width:0}
+.story .q{font-family:var(--f-display);font-size:1.5rem;color:var(--violet)}
+.story ul{margin:0;padding-left:1.1em;color:var(--ink-soft)}
+.people-cta{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.people-cta .hand{font-size:2.2rem}
+@media (max-width:820px){.people{grid-template-columns:1fr}}
+
+/* ---------- 상상이 ---------- */
+.mascot{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(28px,5vw,64px);align-items:center}
+.mascot-card{background:var(--photo);border:2px solid var(--ink);border-radius:var(--r);overflow:hidden}
+.profile{display:grid;grid-template-columns:auto 1fr;gap:10px 20px;margin:20px 0 0}
+.profile dt{font-family:var(--f-mono);font-size:.8rem;font-weight:600;color:var(--violet);padding-top:3px}
+.profile dd{margin:0}
+.poses{margin-top:26px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.poses img{border-radius:14px;border:1px solid var(--line);background:var(--photo);width:100%;aspect-ratio:3/4;object-fit:cover}
+@media (max-width:820px){.mascot{grid-template-columns:1fr}.mascot-card{max-width:380px}}
+@media (max-width:520px){.poses{grid-template-columns:repeat(3,1fr)}}
+
+/* ---------- 운영진 ---------- */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.role{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:10px;align-content:start;min-width:0}
+.role header{display:flex;align-items:center;gap:12px}
+.avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--violet-soft);color:var(--violet);font-family:var(--f-display);font-size:1.2rem;flex:none}
+.role ul{margin:0;padding-left:1.1em;color:var(--ink-soft);font-size:.95rem}
+.role.lead-role{border:2px solid var(--ink)}
+.role.lead-role .avatar{background:var(--ink);color:var(--on-ink)}
+.team-note{margin-top:20px;color:var(--ink-soft);font-size:.92rem}
+@media (max-width:920px){.team{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.team{grid-template-columns:1fr}}
+
+/* ---------- 공지/커뮤니티 ---------- */
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.board{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;min-width:0}
+.board header{display:flex;justify-content:space-between;align-items:baseline;padding:20px 24px;border-bottom:2px solid var(--ink)}
+.board header h3{font-family:var(--f-display);font-weight:400;font-size:1.5rem}
+.board ul{list-style:none;margin:0;padding:0}
+.board li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 24px;border-bottom:1px solid var(--line)}
+.board li:last-child{border-bottom:0}
+.board li span:first-child{font-weight:500}
+@media (max-width:820px){.boards{grid-template-columns:1fr}}
+
+/* ---------- 자료실 ---------- */
+.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.doc{all:unset;cursor:zoom-in;display:grid;gap:10px;min-width:0}
+.doc .thumb{aspect-ratio:4/3;max-width:100%;border-radius:var(--r);overflow:hidden;border:2px solid var(--ink);background:var(--photo)}
+.doc .thumb img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .3s}
+.doc:hover .thumb img{transform:scale(1.04)}
+.doc b{font-size:1rem}
+.doc small{color:var(--ink-soft)}
+@media (max-width:820px){.docs{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.docs{grid-template-columns:1fr}}
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(96vw,1200px);max-height:92vh}
+dialog.lb::backdrop{background:rgba(10,12,40,.82)}
+dialog.lb img{max-height:86vh;width:auto;border-radius:12px;margin:0 auto}
+dialog.lb button{position:fixed;top:16px;right:16px;background:#fff;color:#1E2160;border:0;border-radius:999px;padding:10px 16px;font:700 .95rem var(--f-body);cursor:pointer}
+
+/* ---------- 가입 ---------- */
+.join{background:var(--ink);color:var(--on-ink);background-image:none}
+.join .eyebrow{color:var(--spark)}
+.join-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,64px);align-items:center}
+.join h2{font-size:clamp(2.1rem,4.6vw,3.4rem)}
+.join .lead{color:color-mix(in srgb,var(--on-ink) 78%,transparent);margin-top:16px}
+.join-steps{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+.join-steps li{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.join-steps li i{font-style:normal;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--spark);color:#1E2160;font-family:var(--f-mono);font-weight:600}
+.join-steps small{display:block;opacity:.75}
+.contact{background:var(--paper);color:var(--ink);border-radius:var(--r);padding:28px;display:grid;gap:16px;box-shadow:10px 10px 0 var(--spark)}
+.contact .hand{font-size:2rem}
+.contact dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 16px}
+.contact dt{font-family:var(--f-mono);font-size:.8rem;font-weight:600;color:var(--violet);padding-top:4px}
+.contact dd{margin:0;font-weight:600}
+.phone{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.phone strong{font-family:var(--f-mono);font-size:1.25rem;user-select:all}
+.copy{background:var(--violet-soft);color:var(--ink);border:0;border-radius:999px;padding:6px 12px;font:600 .82rem var(--f-body);cursor:pointer}
+@media (max-width:820px){.join-grid{grid-template-columns:1fr}}
+
+.records>*,.programs>*,.vision>*,.mascot>*,.join-grid>*,.boards>*,.hero .wrap>*,.first-guide>*{min-width:0}
+footer{padding-block:40px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;color:var(--ink-soft);font-size:.9rem}
+footer .brand{color:var(--ink)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="상상공작소 AI모임 홈">
+      <img src="assets/logo.jpg" alt="">
+      <b>상상공작소 <em>AI</em>모임</b>
+    </a>
+    <button class="toggle" id="menuToggle" aria-expanded="false" aria-controls="menu">메뉴</button>
+    <ul class="menu" id="menu">
+      <li><a href="#about">소개</a></li>
+      <li><a href="#how">운영방식</a></li>
+      <li><a href="#programs">프로그램</a></li>
+      <li><a href="#start">처음 오셨나요?</a></li>
+      <li><a href="#works">작품관</a></li>
+      <li><a href="#people">PEOPLE</a></li>
+      <li><a href="#notice">공지·커뮤니티</a></li>
+    </ul>
+    <a class="btn btn-ink" href="#join">가입하기</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">SANGSANG AI · 상상공작소 AI모임</p>
+        <h1>상상하면<span class="l2">만들어집니다</span></h1>
+        <p class="lead">AI를 배우고 직접 만들고, 서로 나누며 함께 성장하는 커뮤니티.<br>AI가 처음이어도 괜찮아요. 누구나 자신의 속도로 시작할 수 있습니다.</p>
+        <div class="cta">
+          <a class="btn btn-ink" href="#about">상상공작소 알아보기</a>
+          <a class="btn btn-line" href="#join">함께 시작하기 →</a>
+        </div>
+        <div class="hero-meta"><span>2026.07 시작</span><span>월 1회 전체강연</span><span>초급 · 중급 소그룹</span><span>초보 환영</span></div>
+      </div>
+      <figure class="porthole">
+        <img src="assets/sangsangi.jpg" alt="상상공작소 공식 캐릭터 상상이가 손을 흔들며 윙크하는 모습" width="605" height="734">
+        <span class="bubble">함께 상상하고,<br>함께 성장해요!</span>
+        <figcaption><b>상상이</b><span>상상공작소 공식 캐릭터</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>배우고 <i>✦</i></span><span>만들고 <i>✦</i></span><span>나누며 <i>✦</i></span><span>함께 성장하는 AI 커뮤니티 <i>✦</i></span><span>LEARN · CREATE · APPLY · SHARE <i>✦</i></span><span>상상하면, 현실이 돼요 <i>✦</i></span>
+      <span>배우고 <i>✦</i></span><span>만들고 <i>✦</i></span><span>나누며 <i>✦</i></span><span>함께 성장하는 AI 커뮤니티 <i>✦</i></span><span>LEARN · CREATE · APPLY · SHARE <i>✦</i></span><span>상상하면, 현실이 돼요 <i>✦</i></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">About · 상상공작소 소개</p>
+        <h2>상상공작소는 어떤 모임인가요?</h2>
+        <p class="lead">AI 초보자부터 활용 경험자까지, 함께 배우고 직접 만드는 커뮤니티입니다. 듣고 끝나는 강의가 아니라, 내 손으로 결과물을 만들어 보는 경험을 나눕니다.</p>
+      </div>
+      <div class="about-grid">
+        <article class="tile"><span class="k">EXPERIENCE</span><h3>AI로 직접 만들어보는 경험</h3><p>배운 도구로 그 자리에서 직접 만들어 봅니다.</p></article>
+        <article class="tile"><span class="k">CONTENT</span><h3>콘텐츠 제작</h3><p>글쓰기 · 이미지 제작 · 영상 제작 · 음악 제작</p></article>
+        <article class="tile"><span class="k">EVERYDAY</span><h3>생활 속 활용</h3><p>ChatGPT와 생성형 AI를 업무와 일상생활에 활용합니다.</p></article>
+        <article class="tile"><span class="k">MY WORK</span><h3>나만의 결과물</h3><p>AI 프로젝트에 참여하고 결과물을 만들어 공유합니다.</p></article>
+      </div>
+      <figure class="banner"><img src="assets/banner.jpg" alt="상상공작소 AI모임 대문 이미지: 배우고 · 만들고 · 나누며 함께 성장하는 AI 커뮤니티" width="1280" height="512" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <!-- VISION -->
+  <section id="vision" style="padding-top:0">
+    <div class="wrap vision">
+      <div class="sec-head" style="margin:0">
+        <p class="eyebrow">Vision · 우리의 비전</p>
+        <blockquote>AI와 함께 <em>생각하고, 배우고, 만들며</em> 성장하는 사람들의 커뮤니티</blockquote>
+        <p class="hand">“AI는 도구가 아니라, 우리의 상상을 실현해주는 파트너입니다.”</p>
+      </div>
+      <ul class="values">
+        <li><b>함께 성장</b><span>서로의 경험을 바탕으로 배우고 성장합니다.</span></li>
+        <li><b>실습 중심</b><span>배운 내용을 직접 만들어보며 익힙니다.</span></li>
+        <li><b>서로 나눔</b><span>작품과 노하우를 함께 나눕니다.</span></li>
+        <li><b>꾸준한 도전</b><span>새로운 도구와 아이디어를 계속 시도합니다.</span></li>
+        <li><b>AI를 삶에 적용</b><span>업무와 일상에 필요한 방식으로 활용합니다.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SANGSANG -->
+  <section class="sangsang" id="sangsang">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Brand · SANGSANG AI</p>
+        <h2>이름에 담은 8가지 성장 경험</h2>
+        <p class="lead">S·A·N·G·S·A·N·G. 앞의 네 글자는 혼자서 AI를 익히는 과정, 뒤의 네 글자는 사람들과 함께 넓혀 가는 과정입니다.</p>
+      </div>
+      <p class="row-label"><span>SANG · 나의 AI</span><span>SANG · 우리의 AI</span></p>
+      <div class="letters">
+        <div class="letter"><span class="big">S</span><span class="word">Start</span><span class="ko">AI를 시작하다</span></div>
+        <div class="letter"><span class="big">A</span><span class="word">Adapt</span><span class="ko">AI를 내 것으로 만들다</span></div>
+        <div class="letter"><span class="big">N</span><span class="word">New</span><span class="ko">새로운 가능성을 발견하다</span></div>
+        <div class="letter"><span class="big">G</span><span class="word">Generate</span><span class="ko">AI로 직접 만들다</span></div>
+        <div class="letter"><span class="big">S</span><span class="word">Share</span><span class="ko">서로 나누다</span></div>
+        <div class="letter"><span class="big">A</span><span class="word">Apply</span><span class="ko">현실에 적용하다</span></div>
+        <div class="letter"><span class="big">N</span><span class="word">Network</span><span class="ko">사람과 연결하다</span></div>
+        <div class="letter"><span class="big">G</span><span class="word">Grow</span><span class="ko">함께 성장하다</span></div>
+      </div>
+      <p class="ai-mark"><span>AI</span> 상상하고 · 배우고 · 함께 만드는 AI</p>
+    </div>
+  </section>
+
+  <!-- WHAT -->
+  <section id="what">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">What we do · 우리가 하는 일</p>
+        <h2>배움과 제작, 활용과 공유를 잇는 네 가지 영역</h2>
+      </div>
+      <div class="areas">
+        <article class="area"><header><b>LEARN</b><span>배우기</span></header><ul><li>AI 기초</li><li>ChatGPT</li><li>프롬프트</li><li>최신 AI 트렌드</li></ul></article>
+        <article class="area"><header><b>CREATE</b><span>만들기</span></header><ul><li>AI 글쓰기</li><li>이미지와 영상</li><li>음악</li><li>콘텐츠 제작</li></ul></article>
+        <article class="area"><header><b>APPLY</b><span>활용하기</span></header><ul><li>업무 활용</li><li>사업 활용</li><li>일상 활용</li><li>AI 자동화</li></ul></article>
+        <article class="area"><header><b>SHARE</b><span>나누기</span></header><ul><li>회원 작품</li><li>활용 사례</li><li>프롬프트</li><li>AI 노하우</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">How it works · 운영방식</p>
+        <h2>월 1회 전체강연에서 시작해, 소그룹에서 이어갑니다</h2>
+      </div>
+      <ol class="flow">
+        <li><h3>전체강연</h3><p>모든 회원이 함께 새로운 AI 주제를 배우고 경험합니다.</p></li>
+        <li><h3>수준별 소그룹</h3><p>초급은 기초와 기본 활용, 중급은 응용과 콘텐츠 제작.</p></li>
+        <li><h3>실습</h3><p>배운 내용을 직접 따라 해보며 도구를 익힙니다.</p></li>
+        <li><h3>프로젝트</h3><p>자신의 관심분야에 맞는 결과물을 만듭니다.</p></li>
+        <li><h3>공유</h3><p>작품과 노하우를 회원들과 나눕니다.</p></li>
+      </ol>
+      <p class="flow-note">필요에 따라 고급 소그룹과 프로젝트 활동도 운영합니다.</p>
+
+      <div class="levels">
+        <article class="level"><span class="tag">LEVEL 1</span><h3>초급반<small>AI 새싹</small></h3><ul><li>ChatGPT 기초</li><li>AI 기초 이해</li><li>이미지 생성 입문</li></ul></article>
+        <article class="level"><span class="tag">LEVEL 2</span><h3>중급반<small>AI 메이커</small></h3><ul><li>프롬프트 심화</li><li>이미지·영상 제작</li><li>업무 활용</li><li>프로젝트 참여</li></ul></article>
+        <article class="level"><span class="tag">LEVEL 3</span><h3>고급반<small>AI 크리에이터</small></h3><ul><li>GPT 활용</li><li>자동화</li><li>AI 강의</li><li>멘토 활동</li></ul></article>
+      </div>
+
+      <div class="journey">
+        <h3>회원 성장 여정 · 배우는 사람에서 성장시키는 사람으로</h3>
+        <ol class="path">
+          <li><span>신규회원</span></li>
+          <li><span>초급회원<small>AI 새싹</small></span></li>
+          <li><span>중급회원<small>AI 메이커</small></span></li>
+          <li><span>고급회원<small>AI 크리에이터</small></span></li>
+          <li><span>멘토</span></li>
+          <li><span>강사</span></li>
+          <li><span>운영진</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section id="programs" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Programs · 정기 프로그램</p>
+        <h2>내 수준과 목적에 맞는 프로그램</h2>
+      </div>
+      <div class="programs">
+        <div style="overflow-x:auto;min-width:0">
+          <table class="prog-table">
+            <thead><tr><th scope="col">PROGRAM</th><th scope="col">내용</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">AI 전체강연</th><td>월 1회 AI 핵심 주제 강연</td></tr>
+              <tr><th scope="row">초급 소그룹</th><td>AI 기초부터 차근차근</td></tr>
+              <tr><th scope="row">중급 소그룹</th><td>AI 활용과 응용</td></tr>
+              <tr><th scope="row">AI 실습</th><td>직접 따라 만들기</td></tr>
+              <tr><th scope="row">AI 프로젝트</th><td>자신만의 결과물 제작</td></tr>
+              <tr><th scope="row">AI 공유회</th><td>회원 작품과 노하우 공유</td></tr>
+              <tr><th scope="row">네트워킹</th><td>회원 교류 및 협업</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="info">
+          <h3>한눈에 보는 모임 정보</h3>
+          <dl>
+            <dt>대상</dt><dd>AI에 관심 있는 누구나 (초보 환영)</dd>
+            <dt>활동</dt><dd>AI 교육 · 실습 · 프로젝트 · 정보 공유 · 친목</dd>
+            <dt>정기모임</dt><dd>월 1~2회 (온·오프라인 병행)</dd>
+            <dt>분위기</dt><dd>배우고, 나누고, 함께 성장하는 따뜻한 모임</dd>
+            <dt>모임 형태</dt><dd>정기모임과 번개모임</dd>
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIRST TIME -->
+  <section class="first" id="start">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">New here? · 처음 오셨나요?</p>
+        <h2>처음이라도 괜찮습니다</h2>
+        <p class="lead">누구나 자신의 속도로 시작할 수 있어요. 가입부터 첫 실습까지 이렇게 진행됩니다.</p>
+      </div>
+      <ol class="steps">
+        <li><span class="n">STEP 1</span><b>회원가입 및 신청</b></li>
+        <li><span class="n">STEP 2</span><b>신규회원 티타임</b></li>
+        <li><span class="n">STEP 3</span><b>AI 경험 및 관심분야 확인</b></li>
+        <li><span class="n">STEP 4</span><b>수준별 소그룹 선택</b></li>
+        <li><span class="n">STEP 5</span><b>첫 AI 실습 참여</b></li>
+        <li><span class="n">STEP 6</span><b>정규 활동 시작</b></li>
+      </ol>
+      <div class="first-guide">
+        <figure><button type="button" data-lb="assets/join-guide.jpg" data-alt="상상공작소 AI모임 참여 방법 안내 이미지" aria-label="참여 방법 이미지 크게 보기"><img src="assets/join-guide.jpg" alt="참여 방법: 1 모임 가입, 2 모임장·운영진과 신규회원 티타임, 3 정기모임 및 번개모임 참여" width="1280" height="853" loading="lazy"></button></figure>
+        <div class="welcome">
+          <p class="hand">신규회원 티타임에서 만나요!</p>
+          <p>모임장과 운영진이 신규회원을 환영하고, 모임의 방향과 활동을 안내합니다. 서로 알아가며 궁금한 점을 편하게 물어보세요.</p>
+          <p style="color:var(--ink-soft);font-size:.95rem">티타임에서 이야기 나눠요: AI 경험 수준 · 관심 분야(ChatGPT, 이미지, 자동화, 업무활용 등) · 모임에서 배우고 싶은 것 · 참여 가능한 요일과 시간</p>
+          <a class="btn btn-ink" href="#join" style="justify-self:start">가입 방법 보기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECORDS -->
+  <section id="records">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Archive · 상상공작소의 기록</p>
+        <h2>활동사진과 연혁으로 쌓아가는 이야기</h2>
+      </div>
+      <div class="records">
+        <div>
+          <h3 style="margin-bottom:22px">활동연혁</h3>
+          <ol class="timeline">
+            <li><time datetime="2026-07">2026.07</time><b>상상공작소 AI모임 시작</b><span style="color:var(--ink-soft)">배우고, 만들고, 나누는 첫걸음을 내디뎠습니다.</span></li>
+            <li class="next"><time>NEXT</time><b>다음 기록을 준비하고 있어요</b><span>정기모임, 전체강연, 프로젝트 발표 소식이 날짜순으로 이곳에 쌓입니다.</span></li>
+          </ol>
+        </div>
+        <div>
+          <h3 style="margin-bottom:22px">활동사진</h3>
+          <div class="photo-cats">
+            <div><b>정기모임 · AI 강의</b><small>사진 등록 예정</small></div>
+            <div><b>소그룹 · 티타임</b><small>사진 등록 예정</small></div>
+            <div><b>프로젝트 · 작품 발표</b><small>사진 등록 예정</small></div>
+            <div><b>특별활동</b><small>사진 등록 예정</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="works" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Gallery · 회원 작품관</p>
+        <h2>배운 것을 결과물로 보여주는 상상공작소 갤러리</h2>
+      </div>
+      <div class="works">
+        <article class="work"><div class="swatch">IMG</div><div class="row"><h3>AI 이미지</h3><span class="chip">작품 모집 중</span></div></article>
+        <article class="work"><div class="swatch">VID</div><div class="row"><h3>AI 영상</h3><span class="chip">작품 모집 중</span></div></article>
+        <article class="work"><div class="swatch">TXT</div><div class="row"><h3>AI 글쓰기</h3><span class="chip">작품 모집 중</span></div></article>
+        <article class="work"><div class="swatch">♪</div><div class="row"><h3>AI 음악</h3><span class="chip">작품 모집 중</span></div></article>
+        <article class="work"><div class="swatch">DOC</div><div class="row"><h3>AI 자료</h3><span class="chip">작품 모집 중</span></div></article>
+        <article class="work"><div class="swatch">PRJ</div><div class="row"><h3>AI 프로젝트</h3><span class="chip">작품 모집 중</span></div></article>
+      </div>
+      <p class="work-format"><b>작품 소개에 담는 것</b><span>작품 제목</span><span>제작자</span><span>사용한 AI 도구</span><span>제작 의도</span><span>활용 방법</span></p>
+    </div>
+  </section>
+
+  <!-- PEOPLE -->
+  <section id="people" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">SANGSANG PEOPLE</p>
+        <h2>회원의 이야기가 새로운 회원의 첫 시작을 돕습니다</h2>
+      </div>
+      <div class="people">
+        <article class="story"><span class="q">시작 이야기</span><ul><li>AI를 시작한 계기</li><li>처음에 어려웠던 점</li></ul></article>
+        <article class="story"><span class="q">활용 이야기</span><ul><li>AI를 활용하는 방법</li><li>직접 만든 결과물</li></ul></article>
+        <article class="story"><span class="q">성장 이야기</span><ul><li>상상공작소에서 얻은 것</li><li>앞으로의 목표</li></ul></article>
+      </div>
+      <div class="people-cta"><p class="hand">“나도 한번 해볼까?”</p><p style="color:var(--ink-soft)">회원 인터뷰에 결과물과 관련 활동을 함께 소개합니다. 첫 인터뷰 주인공을 기다리고 있어요.</p></div>
+    </div>
+  </section>
+
+  <!-- MASCOT -->
+  <section id="mascot" style="background:var(--paper-2)">
+    <div class="wrap mascot">
+      <figure class="mascot-card" style="margin:0"><img src="assets/sangsangi.jpg" alt="상상이 전신 모습" width="605" height="734" loading="lazy"></figure>
+      <div>
+        <p class="eyebrow">Official character</p>
+        <h2 style="margin-top:12px">안녕! 나는 상상이야</h2>
+        <p class="lead" style="margin-top:14px">상상공작소 AI모임에서 태어난, 호기심 많고 창의적인 AI 친구. 새로운 아이디어를 발견하고 서로 도와가며 함께 성장하는 우리 모임의 든든한 친구예요.</p>
+        <dl class="profile">
+          <dt>성격</dt><dd>호기심 많고, 창의적이며 친절하고 든든해요</dd>
+          <dt>좋아하는 것</dt><dd>AI, 아이디어, 질문하기, 배우기, 나누기</dd>
+          <dt>특기</dt><dd>상상하기, 연결하기, 도와주기</dd>
+          <dt>말버릇</dt><dd>“상상하면, 현실이 돼요!”</dd>
+        </dl>
+        <div class="poses">
+          <img src="assets/pose1.jpg" alt="돋보기를 든 상상이: 탐색해요" loading="lazy">
+          <img src="assets/pose2.jpg" alt="노트북 앞의 상상이: 배워요" loading="lazy">
+          <img src="assets/pose3.jpg" alt="전구와 함께 손가락을 든 상상이: 아이디어를 나눠요" loading="lazy">
+          <img src="assets/pose4.jpg" alt="태블릿을 든 상상이: 함께 성장해요" loading="lazy">
+          <img src="assets/pose5.jpg" alt="두 팔을 든 상상이: 꿈을 이뤄요" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Team · 강사 &amp; 운영진</p>
+        <h2>상상공작소를 함께 꾸려가는 사람들</h2>
+        <p class="lead">운영과 자문, 배움과 지원으로 역할을 나눕니다. 인물 사진·이름·전문분야는 순차적으로 소개할 예정입니다.</p>
+      </div>
+      <div class="team">
+        <article class="role lead-role"><header><span class="avatar">장</span><h3>모임장</h3></header><ul><li>모임 총괄 · 운영 계획 수립</li><li>회원 관리 · 행사 기획</li><li>강사 및 운영진 관리</li></ul></article>
+        <article class="role"><header><span class="avatar">자</span><h3>자문위원</h3></header><ul><li>모임 운영 자문</li><li>교육 방향 제시</li><li>외부 협력 및 네트워크 지원</li></ul></article>
+        <article class="role"><header><span class="avatar">강</span><h3>강사</h3></header><ul><li>정규 교육 진행 · 교안 제작</li><li>커리큘럼 개발</li><li>회원 피드백</li></ul></article>
+        <article class="role"><header><span class="avatar">운</span><h3>운영팀</h3></header><ul><li>신규회원 티타임</li><li>출석 · 일정 관리</li><li>행사 준비</li></ul></article>
+        <article class="role"><header><span class="avatar">멘</span><h3>멘토단 · 상상메이트</h3></header><ul><li>초급 회원 질의응답</li><li>실습 지원 · 프로젝트 코칭</li><li>승급 심사 지원</li></ul></article>
+        <article class="role"><header><span class="avatar">홍</span><h3>홍보 · 콘텐츠팀</h3></header><ul><li>SNS 운영 · 카드뉴스 제작</li><li>사진 · 영상 촬영</li><li>AI 콘텐츠 제작</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTICE -->
+  <section id="notice" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Notice &amp; Community</p>
+        <h2>공지에서 활동을 찾고, 커뮤니티에서 경험을 나눕니다</h2>
+      </div>
+      <div class="boards">
+        <div class="board">
+          <header><h3>공지사항</h3><span class="chip">일정 안내</span></header>
+          <ul>
+            <li><span>정기모임 · 전체강연 안내</span><span class="chip">공지</span></li>
+            <li><span>소그룹 신청 · 신규회원 티타임</span><span class="chip">모집</span></li>
+            <li><span>프로젝트 모집 · 특별행사</span><span class="chip">모집</span></li>
+            <li><span>휴무 및 일정 안내</span><span class="chip">안내</span></li>
+          </ul>
+        </div>
+        <div class="board">
+          <header><h3>커뮤니티</h3><span class="chip">회원 소통</span></header>
+          <ul>
+            <li><span>AI 질문방</span><span class="chip">Q&amp;A</span></li>
+            <li><span>AI 정보공유</span><span class="chip">정보</span></li>
+            <li><span>프롬프트 공유</span><span class="chip">프롬프트</span></li>
+            <li><span>회원 작품공유</span><span class="chip">작품</span></li>
+            <li><span>자유게시판</span><span class="chip">자유</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCS -->
+  <section id="docs" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Library · 공식 자료</p>
+        <h2>홍보 포스터와 조직도</h2>
+      </div>
+      <div class="docs">
+        <button class="doc" type="button" data-lb="assets/poster.jpg" data-alt="상상공작소 AI모임 홍보 포스터"><span class="thumb"><img src="assets/poster.jpg" alt="" loading="lazy"></span><b>홍보 포스터</b><small>활동 소개 · 회칙 · 운영지침 · 참여 방법</small></button>
+        <button class="doc" type="button" data-lb="assets/join-guide.jpg" data-alt="상상공작소 AI모임 참여 방법"><span class="thumb"><img src="assets/join-guide.jpg" alt="" loading="lazy"></span><b>모임 참여 방법</b><small>가입 → 티타임 → 정기·번개모임</small></button>
+        <button class="doc" type="button" data-lb="assets/org-chart.jpg" data-alt="상상공작소 AI모임 조직도"><span class="thumb"><img src="assets/org-chart.jpg" alt="" loading="lazy"></span><b>조직도</b><small>운영조직 · 교육조직 · 회원조직</small></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section class="join" id="join">
+    <div class="wrap join-grid">
+      <div>
+        <p class="eyebrow">Join us · 가입하기</p>
+        <h2 style="margin-top:12px">AI를 처음 시작하시나요?<br>누구나 시작할 수 있습니다</h2>
+        <p class="lead">상상공작소 AI모임과 함께, 상상이도 언제나 여러분 곁에서 응원할게요.</p>
+        <ol class="join-steps">
+          <li><i>1</i><div><b>모임 찾기 · 가입 신청</b><small>당근모임, SNS 등에서 ‘상상공작소 AI모임’을 찾아 가입해 주세요.</small></div></li>
+          <li><i>2</i><div><b>신규회원 티타임</b><small>모임장·운영진과 인사 나누고 활동 안내를 받아요.</small></div></li>
+          <li><i>3</i><div><b>정기모임 · 번개모임 참여</b><small>원하는 교육과 모임에 참여하며 함께 성장해요.</small></div></li>
+        </ol>
+      </div>
+      <aside class="contact">
+        <p class="hand">지금 함께하세요!</p>
+        <dl>
+          <dt>모임</dt><dd>상상공작소 AI모임</dd>
+          <dt>문의</dt><dd>모임장 진주호</dd>
+          <dt>연락처</dt><dd><span class="phone"><strong id="phoneNum">010-2241-1440</strong><button class="copy" id="copyPhone" type="button">번호 복사</button></span></dd>
+          <dt>홈페이지</dt><dd>ksse.dothome.co.kr</dd>
+        </dl>
+        <a class="btn btn-ink" href="tel:01022411440" style="justify-self:start">전화로 문의하기</a>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/logo.jpg" alt=""><b>상상공작소 <em>AI</em>모임</b></a>
+    <span>상상하고 · 배우고 · 함께 만드는 AI</span>
+    <span>© 2026 상상공작소 AI모임 · ksse.dothome.co.kr</span>
+  </div>
+</footer>
+
+<dialog class="lb" id="lb"><button type="button" id="lbClose">닫기 ✕</button><img id="lbImg" src="" alt=""></dialog>
+
+<script>
+(function(){
+  var t=document.getElementById('menuToggle'),m=document.getElementById('menu');
+  t.addEventListener('click',function(){var o=m.classList.toggle('open');t.setAttribute('aria-expanded',o);t.textContent=o?'닫기':'메뉴';});
+  m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');t.textContent='메뉴';}});
+
+  var lb=document.getElementById('lb'),li=document.getElementById('lbImg');
+  document.querySelectorAll('[data-lb]').forEach(function(b){
+    b.addEventListener('click',function(){li.src=b.getAttribute('data-lb');li.alt=b.getAttribute('data-alt')||'';
+      if(lb.showModal){lb.showModal();}else{window.location.href=b.getAttribute('data-lb');}});
+  });
+  document.getElementById('lbClose').addEventListener('click',function(){lb.close();});
+  lb.addEventListener('click',function(e){if(e.target===lb)lb.close();});
+
+  var cp=document.getElementById('copyPhone'),pn=document.getElementById('phoneNum');
+  cp.addEventListener('click',function(){
+    function sel(){var r=document.createRange();r.selectNodeContents(pn);var s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='선택됨 · 복사하세요';}
+    try{navigator.clipboard.writeText(pn.textContent).then(function(){cp.textContent='복사했어요';setTimeout(function(){cp.textContent='번호 복사';},1800);},sel);}catch(e){sel();}
+  });
+})();
+</script>
+
+</body>
+</html>
